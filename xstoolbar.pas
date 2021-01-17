@@ -41,7 +41,6 @@ type
     foffset     : integer;
     fdown       : boolean;
     tmpoffs     : integer;
-    procedure   SetImages(const AValue: TCustomImageList);
     procedure   GetButtonAtMousePos(X,Y: Integer);
   protected
     procedure   Paint; override;
@@ -57,8 +56,11 @@ type
     procedure   AddButton(HintName: string; tb: TXSToolButton);
     procedure   AddSeparator;
   published
-    property    Images: TCustomImageList read FImages write SetImages;
+    property    Images: TCustomImageList read FImages write FImages;
     property    Count : integer read fCount write fCount;
+    property    Align;
+    property    Anchors;
+    property    BorderSpacing;
   end;
 
 procedure Register;
@@ -100,7 +102,8 @@ begin
   inherited Create(TheOwner);
   Height := 36;
   Align  := alTop;
-  Images := TCustomImageList.Create(Self);
+//  Images := TCustomImageList.Create(Self);
+//  Images :=nil;
   FList  := TStringList.Create;
   fCount := -1;
   foffset:= -1;
@@ -118,12 +121,6 @@ begin
   for i:=0 to FList.Count-1 do FList.Objects[i].Free;
   FreeAndNil(FList);
   inherited Destroy;
-end;
-
-procedure TXSToolBar.SetImages(const AValue: TCustomImageList);
-begin
-  if FImages<>AValue then
-    FImages:=AValue;
 end;
 
 procedure TXSToolBar.AddButton(HintName: string; tb: TXSToolButton);
